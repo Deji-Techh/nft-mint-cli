@@ -1,6 +1,6 @@
 {
   "name": "nft-mint",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CLI tool for bulk NFT minting with batch processing and transaction logging",
   "main": "index.js",
   "type": "module",
