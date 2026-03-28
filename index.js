@@ -18,7 +18,7 @@ dotenv.config();
 const program = new Command();
 
 program
-  .name('nft-mint-bulk')
+  .name('nft-mint')
   .description('CLI tool for bulk NFT minting with batch processing')
   .version('1.0.0')
   .requiredOption('-c, --contract <address>', 'NFT contract address to mint from')

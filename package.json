@@ -1,10 +1,11 @@
 {
-  "name": "nft-mint-bulk",
+  "name": "nft-mint",
   "version": "1.0.0",
   "description": "CLI tool for bulk NFT minting with batch processing and transaction logging",
   "main": "index.js",
   "type": "module",
   "bin": {
+    "nft-mint": "./index.js",
     "nft-mint-bulk": "./index.js"
   },
   "scripts": {
