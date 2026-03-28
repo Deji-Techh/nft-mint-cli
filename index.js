@@ -7,8 +7,63 @@ import chalk from 'chalk';
 import cliProgress from 'cli-progress';
 import fs from 'fs';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import readline from 'readline';
+import { fileURLToPath } from 'url';
+
+const frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+
+const gradient = (text) => {
+  const colors = [chalk.red, chalk.yellow, chalk.green, chalk.cyan, chalk.blue, chalk.magenta];
+  return text.split('').map((char, i) => colors[i % colors.length](char)).join('');
+};
+
+const gradientLine = (text, colorFn) => colorFn(text);
+
+async function flashyIntro() {
+  const bannerLines = [
+    '╔═══════════════════════════════════════════════════════════╗',
+    '║                                                           ║',
+    '║              🔥 NFT BULK MINT CLI 🔥                     ║',
+    '║              ⚡ Production Ready ⚡                       ║',
+    '║                                                           ║',
+    '╚═══════════════════════════════════════════════════════════╝'
+  ];
+  
+  console.clear();
+  
+  for (let i = 0; i < 3; i++) {
+    process.stdout.write('\r' + chalk.cyan(frames[i % frames.length]) + ' Loading...');
+    await new Promise(r => setTimeout(r, 100));
+  }
+  
+  console.log('\n\n');
+  
+  for (let i = 0; i < bannerLines.length; i++) {
+    const line = bannerLines[i];
+    if (i === 2) console.log(gradient(line));
+    else if (i === 3) console.log(chalk.yellow(line));
+    else console.log(chalk.cyan(line));
+    await new Promise(r => setTimeout(r, 80));
+  }
+  
+  console.log('\n');
+  
+  const steps = [
+    'Initializing ethers.js provider...',
+    'Loading contract ABI...',
+    'Preparing batch processor...',
+    'Configuring wallet...'
+  ];
+  
+  for (const step of steps) {
+    process.stdout.write(chalk.gray(step));
+    await new Promise(r => setTimeout(r, 200 + Math.random() * 200));
+    console.log(chalk.green(' ✓'));
+  }
+  
+  console.log('\n' + chalk.green.bold('  ⚡ All systems ready!\n'));
+  await new Promise(r => setTimeout(r, 300));
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -208,9 +263,7 @@ async function mintNFTs(contract, wallet, totalQuantity, batchSize, mintAmount, 
 }
 
 async function main() {
-  console.log(chalk.bold.cyan('\n╔═══════════════════════════════════════════════════════════╗'));
-  console.log(chalk.bold.cyan('║         🚀 NFT Bulk Minting CLI - Production Ready        ║'));
-  console.log(chalk.bold.cyan('╚═══════════════════════════════════════════════════════════╝\n'));
+  await flashyIntro();
 
   const { privateKey, rpc, quantity } = validateInputs();
 
