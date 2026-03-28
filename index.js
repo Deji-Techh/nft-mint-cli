@@ -8,6 +8,7 @@ import cliProgress from 'cli-progress';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import readline from 'readline';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -182,7 +183,6 @@ async function mintNFTs(contract, wallet, totalQuantity, batchSize, mintAmount, 
       addToMintLog(errorLog);
 
       const continueWithConfirmation = await new Promise(resolve => {
-        const readline = await import('readline');
         const rl = readline.createInterface({
           input: process.stdin,
           output: process.stdout
@@ -240,14 +240,13 @@ async function main() {
   }
 
   if (!options.confirm) {
-    const readline = await import('readline');
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout
     });
 
     const confirmed = await new Promise(resolve => {
-      rl.question(chalk.bold yellow('\n⚠️  Ready to mint? This will send transactions to the blockchain. (y/N): '), (answer) => {
+      rl.question(chalk.bold.yellow('\n⚠️  Ready to mint? This will send transactions to the blockchain. (y/N): '), (answer) => {
         rl.close();
         resolve(answer.toLowerCase() === 'y');
       });
